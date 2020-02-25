@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Format</title>
+</head>
+
+<body>
+
+    <h1>Format a trade url to a query</h1>
+
+    <form onsubmit="get()">
+        Parameter: <input type="text" id="param">
+        <input type="submit" value="Submit" id="submit">
+    </form>
+    <p id="p1">
+    </p>
+
+    <script>
+        document.getElementById("submit").addEventListener("click", function (event) {
+            event.preventDefault()
+
+            let param = document.getElementById("param").value
+            console.log(param)
+            fetch("/api/query?param=" + param)
+                .then((resp) => resp.json()) // Transform the data into json
+                .then(function (data) {
+
+
+                    let d = JSON.stringify(data);
+                    document.getElementById("p1").innerHTML = d;
+                })
+        })
+
+    </script>
+</body>
+
+</html>
