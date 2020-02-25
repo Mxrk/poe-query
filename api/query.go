@@ -9,19 +9,10 @@ import (
 
 func Api(w http.ResponseWriter, r *http.Request) {
 
-	// b, err := json.Marshal(s)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// w.Write(b)
+	vars := r.URL.Query()
+	param := vars.Get("param")
 
-	vars, ok := r.URL.Query()["param"]
-
-	if !ok || len(vars[0]) < 1 {
-		w.Write([]byte("Url Param is missing"))
-		return
-	}
-	s := parse(vars[0])
+	s := parse(param)
 	w.Write([]byte(s))
 
 }
@@ -38,12 +29,21 @@ func parse(url string) string {
 	contents, err := ioutil.ReadAll(resp.Body)
 	// s := strings.Split(string(contents), " require([\"main\"]")
 	s2 := strings.Split(string(contents), "\"state\":")
+	if len(s2) <= 1 {
+		return ""
+	}
 
 	s3 := strings.Split(s2[1], "//-->")
+
+	if len(s3) < 1 {
+		return ""
+	}
+
 	s4 := strings.Split(s3[0], ",\"loggedIn\"")
 	msg += s4[0][1:]
 	msg += ",\"sort\":{\"price\":\"asc\"}}"
 
 	msg = strings.Replace(msg, ",\"status\":\"online\"", "", -1)
+	fmt.Println("lebt3")
 	return msg
 }
