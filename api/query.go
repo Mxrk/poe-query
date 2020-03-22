@@ -19,15 +19,13 @@ func Api(w http.ResponseWriter, r *http.Request) {
 
 func parse(url string) string {
 
-	resp, err := http.Get("https://www.pathofexile.com/trade/search/Metamorph/" + url)
-
+	resp, err := http.Get("https://www.pathofexile.com/trade/search/Delirium/" + url)
 	if err != nil {
 		fmt.Println(err)
 	}
 
 	msg := "{\"query\":{\"status\":{\"option\":\"online\"},"
 	contents, err := ioutil.ReadAll(resp.Body)
-	// s := strings.Split(string(contents), " require([\"main\"]")
 	s2 := strings.Split(string(contents), "\"state\":")
 	if len(s2) <= 1 {
 		return ""
@@ -44,6 +42,5 @@ func parse(url string) string {
 	msg += ",\"sort\":{\"price\":\"asc\"}}"
 
 	msg = strings.Replace(msg, ",\"status\":\"online\"", "", -1)
-	fmt.Println("lebt3")
 	return msg
 }
