@@ -19,7 +19,7 @@ func Api(w http.ResponseWriter, r *http.Request) {
 
 func parse(url string) string {
 
-	resp, err := http.Get("https://www.pathofexile.com/trade/search/Harvest/" + url)
+	resp, err := http.Get("https://www.pathofexile.com/trade/search/Expedition/" + url)
 	if err != nil {
 		fmt.Println(err)
 	}
